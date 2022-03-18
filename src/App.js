@@ -1,15 +1,16 @@
 // import './App.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import useLocalStorage from './hooks/useLocalStorage'
 import ToDo  from './ToDo'
 import ToDoForm from './ToDoForm'
 
 
 function App() {
-    const [todos, setTodos] = useState([])
+
+    const [todos, setTodos] = useLocalStorage('todos', [])
 
     const addTask = (userInput) => {
         if(userInput) {
-            console.log(userInput)
             const newItem = {
                 id: Math.random().toString(36).substr(2,9),
                 task: userInput,
