@@ -10,12 +10,10 @@ function ToDoForm({ addTask }){
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        addTask(userInput)
+        if (userInput !=='') {
+            addTask(userInput)
+        }
         setUserInput("")
-    }
-
-    const handleKeyPress = () => {
-
     }
 
     return (
@@ -24,7 +22,6 @@ function ToDoForm({ addTask }){
                 value={userInput}
                 type="text"
                 onChange={handleChange}
-                onKeyDown={handleKeyPress}
                 placeholder="Add new"
             />
             <button>Save</button>
