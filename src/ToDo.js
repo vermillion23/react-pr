@@ -17,7 +17,7 @@ function ToDo({todo, toggleTask, removeTask}){
                 onClick={() => toggleTask(todo.id)}>
                 {todo.task}</div>
             {/*<div className="item-delete" onClick={() => removeTask(todo.id)}> Delete </div>*/}
-                <div className="item-delete" onClick={() => {setOpenModal(true)}}> Delete </div>
+                <div className="btn" onClick={() => {setOpenModal(true)}}> Delete </div>
             </div>
         {openModal &&
             <Modal closeModal={setOpenModal} removeTask={handleRemoveTask}/>

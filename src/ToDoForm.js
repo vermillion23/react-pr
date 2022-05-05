@@ -24,7 +24,8 @@ function ToDoForm({ addTask }){
                 onChange={handleChange}
                 placeholder="Add new"
             />
-            <button>Save</button>
+            <button className="btn">Save</button>
+
         </form>
     )
 }
