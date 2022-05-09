@@ -1,0 +1,7 @@
+.to-do-form .content {
+    display: flex;
+}
+
+.to-do-form .btn {
+    margin-left: 1rem;
+}
