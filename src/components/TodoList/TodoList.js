@@ -12,11 +12,15 @@ function TodoList() {
     useEffect(() => {
         setFiltered(todos)
     }, [todos])
+    
+    const current = new Date();
+
     const addTask = (userInput) => {
         if (userInput) {
             const newItem = {
                 id: Math.random().toString(36).substr(2, 9),
                 task: userInput,
+                createdAt: `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
                 complete: false
             }
             setTodos([...todos, newItem])
