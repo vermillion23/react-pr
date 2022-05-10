@@ -18,7 +18,7 @@ function ToDoForm({ addTask }) {
     }
 
     return (
-        <div className="to-do-form container">
+        <div className="to-do-form">
             <form className="content" onSubmit={handleSubmit}>
                 <input
                     value={userInput}

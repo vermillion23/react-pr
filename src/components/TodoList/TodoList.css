@@ -15,3 +15,8 @@
     background-image: none;
     background-color: green;
 }
+
+.to-do-list__forms {
+    display: flex;
+    justify-content: space-between;
+}

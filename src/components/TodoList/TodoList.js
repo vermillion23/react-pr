@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import ToDo from '../todoItem/ToDo'
 import ToDoForm from '../ToDoForm/ToDoForm'
+import SearchTodo from '../SearchTodo/SearchTodo'
 import useLocalStorage from '../../hooks/useLocalStorage'
 import "./TodoList.css"
 
@@ -8,19 +9,18 @@ function TodoList() {
 
     const [todos, setTodos] = useLocalStorage('todos', [])
     const [filtered, setFiltered] = useState(todos)
+    const [searchField, setSearchField] = useState("");
 
     useEffect(() => {
         setFiltered(todos)
     }, [todos])
-    
     const current = new Date();
-
     const addTask = (userInput) => {
         if (userInput) {
             const newItem = {
                 id: Math.random().toString(36).substr(2, 9),
                 task: userInput,
-                createdAt: `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
+                createdAt: `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`,
                 complete: false
             }
             setTodos([...todos, newItem])
@@ -28,7 +28,7 @@ function TodoList() {
     }
 
     const removeTask = (id) => {
-        setTodos([...todos.filter((todo) => todo.id !== id)])
+        setTodos(todos.filter((todo) => todo.id !== id))
     }
 
     const handleToggle = (id) => {
@@ -43,10 +43,39 @@ function TodoList() {
         if (complete === 'all') {
             setFiltered(todos)
         } else {
-            let newTodo = [...todos].filter(item => item.complete === complete)
-            setFiltered(newTodo)
+            let newTodos = todos.filter(item => item.complete === complete)
+            setFiltered(newTodos)
         }
     }
+
+    // const onSearchTodo = (text) => {
+    //     setSearchField(text)
+
+    //     const result = filtered
+    //         .filter(
+    //             todoItem => {
+    //                 return (todoItem
+    //                     .task
+    //                     .toLowerCase()
+    //                     .includes(text.toLowerCase())
+    //                 )
+    //             })
+    //     setFiltered(result)
+    // }
+
+
+    useEffect(() => {
+        const result = filtered
+                .filter(
+                    todoItem => {
+                        return (todoItem
+                            .task
+                            .toLowerCase()
+                            .includes(searchField.toLowerCase())
+                        )
+                    })
+            setFiltered(result)
+    }, [searchField])
 
     return (
         <div className="to-do-list">
@@ -56,7 +85,11 @@ function TodoList() {
                     <header>
                         <h1>List of tasks:  {todos.length}</h1>
                     </header>
-                    <ToDoForm addTask={addTask} />
+                    <div className="to-do-list__forms container">
+                        <ToDoForm addTask={addTask} />
+                        <SearchTodo searchField={searchField} setSearchField={setSearchField} />
+                    </div>
+
                     {filtered.sort((t1, t2) => Number(t1.complete) - Number(t2.complete)).map((todo) => {
                         return (
                             <ToDo
