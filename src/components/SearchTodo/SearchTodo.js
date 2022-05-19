@@ -1,6 +1,4 @@
 import './SearchTodo.css'
-import { useState } from 'react'
-
 
 const SearchTodo = ({searchField, setSearchField}) => {
 

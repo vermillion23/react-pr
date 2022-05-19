@@ -10,6 +10,7 @@ function TodoList() {
     const [todos, setTodos] = useLocalStorage('todos', [])
     const [filtered, setFiltered] = useState(todos)
     const [searchField, setSearchField] = useState("");
+    // const [filteredByName, setFilteredByName] = useState(todos)
 
     useEffect(() => {
         setFiltered(todos)
@@ -48,34 +49,45 @@ function TodoList() {
         }
     }
 
-    // const onSearchTodo = (text) => {
-    //     setSearchField(text)
+    const onSearchTodo = (text) => {
 
+        setSearchField(text)
+        if (text.length === 0 ) {
+             setFiltered(todos)
+            return
+        }
+
+        const result = filtered
+            .filter(
+                todoItem => {
+                    return (todoItem
+                        .task
+                        .toLowerCase()
+                        .includes(text.toLowerCase())
+                    )
+                })
+        setFiltered(result)
+    }
+
+    const onSortClick = () => {
+        const filteredCopy = [...filtered].sort(function (a, b) {
+            return ('' + a.task).localeCompare(b.task);
+        })
+        setFiltered(filteredCopy)
+    }
+
+    // useEffect(() => {
     //     const result = filtered
     //         .filter(
     //             todoItem => {
     //                 return (todoItem
     //                     .task
     //                     .toLowerCase()
-    //                     .includes(text.toLowerCase())
+    //                     .includes(searchField.toLowerCase())
     //                 )
     //             })
     //     setFiltered(result)
-    // }
-
-
-    useEffect(() => {
-        const result = filtered
-                .filter(
-                    todoItem => {
-                        return (todoItem
-                            .task
-                            .toLowerCase()
-                            .includes(searchField.toLowerCase())
-                        )
-                    })
-            setFiltered(result)
-    }, [searchField])
+    // }, [searchField])
 
     return (
         <div className="to-do-list">
@@ -85,9 +97,10 @@ function TodoList() {
                     <header>
                         <h1>List of tasks:  {todos.length}</h1>
                     </header>
+                    <div className="btn" onClick={() => onSortClick()}>Sort by name </div>
                     <div className="to-do-list__forms container">
                         <ToDoForm addTask={addTask} />
-                        <SearchTodo searchField={searchField} setSearchField={setSearchField} />
+                        <SearchTodo searchField={searchField} setSearchField={onSearchTodo} />
                     </div>
 
                     {filtered.sort((t1, t2) => Number(t1.complete) - Number(t2.complete)).map((todo) => {
